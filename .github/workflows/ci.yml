@@ -5,32 +5,32 @@ on:
     branches: ["first_try"]
 
 jobs:
-  terraform:
-    runs-on: ubuntu-latest
-    env:
-      TF_WORKING_DIR: terraform
+  # terraform:
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     TF_WORKING_DIR: terraform
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.5.7
+  #     - name: Setup Terraform
+  #       uses: hashicorp/setup-terraform@v3
+  #       with:
+  #         terraform_version: 1.5.7
 
-      - name: Azure CLI login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #     - name: Azure CLI login
+  #       uses: azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Terraform Init
-        working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform init
+  #     - name: Terraform Init
+  #       working-directory: ${{ env.TF_WORKING_DIR }}
+  #       run: terraform init
 
-      - name: Terraform Apply
-        working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform apply -auto-approve
+  #     - name: Terraform Apply
+  #       working-directory: ${{ env.TF_WORKING_DIR }}
+  #       run: terraform apply -auto-approve
 
   docker_build:
     runs-on: ubuntu-latest
