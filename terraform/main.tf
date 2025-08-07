@@ -37,8 +37,6 @@ resource "azurerm_subnet" "aks_subnet" {
 
   # If using Azure CNI with network policies, set service endpoints / delegations as required
 }
-
-# AKS cluster (control plane)
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = local.aks_name
   location            = azurerm_resource_group.rg.location
@@ -46,33 +44,14 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = "${var.prefix}-dns"
 
   default_node_pool {
-    name       = "system"
-    node_count = 1 # minimal initial system node(s)
+    name       = "default"
+    node_count = 1
     vm_size    = "Standard_D4s_v3"
-    os_type    = "Linux"
     type       = "VirtualMachineScaleSets"
-    # keep system pool small; use separate user node pool(s) for workloads
-    vnet_subnet_id     = azurerm_subnet.aks_subnet.id
-    availability_zones = ["1", "2", "3"]
   }
 
   identity {
     type = "SystemAssigned"
-  }
-
-  addon_profile {
-    kube_dashboard {
-      enabled = false
-    }
-
-    oms_agent {
-      enabled                    = true
-      log_analytics_workspace_id = azurerm_log_analytics_workspace.la.id
-    }
-  }
-
-  role_based_access_control {
-    enabled = true
   }
 
   network_profile {
@@ -80,6 +59,18 @@ resource "azurerm_kubernetes_cluster" "aks" {
     load_balancer_sku = "standard"
     outbound_type     = "loadBalancer"
   }
+
+  # # Enable RBAC like this:
+  # role_based_access_control {
+  #   enabled = true
+  # }
+
+  # addon_profile {
+  #   oms_agent {
+  #     enabled                    = true
+  #     log_analytics_workspace_id = azurerm_log_analytics_workspace.la.id
+  #   }
+  # }
 
   tags = {
     environment = "prod"

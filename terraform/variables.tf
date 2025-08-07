@@ -11,6 +11,7 @@ variable "location" {
 variable "ssh_key_data" {
   type    = string
   description = "Public SSH key data for node pool (e.g. file(\"~/.ssh/id_rsa.pub\"))"
+  default = ""
 }
 
 variable "node_vm_size" {
