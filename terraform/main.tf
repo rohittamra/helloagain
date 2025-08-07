@@ -1,10 +1,10 @@
 locals {
-  rg_name       = "${var.prefix}-rg"
-  aks_name      = "${var.prefix}-aks"
-  la_name       = "${var.prefix}-la"
-  vnet_name     = "${var.prefix}-vnet"
-  subnet_name   = "${var.prefix}-subnet"
-  aks_sku       = "Basic"
+  rg_name     = "${var.prefix}-rg"
+  aks_name    = "${var.prefix}-aks"
+  la_name     = "${var.prefix}-la"
+  vnet_name   = "${var.prefix}-vnet"
+  subnet_name = "${var.prefix}-subnet"
+  aks_sku     = "Basic"
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -46,14 +46,14 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = "${var.prefix}-dns"
 
   default_node_pool {
-    name                = "system"
-    node_count          = 1               # minimal initial system node(s)
-    vm_size             = "Standard_D4s_v3"
-    os_type             = "Linux"
-    type                = "VirtualMachineScaleSets"
+    name       = "system"
+    node_count = 1 # minimal initial system node(s)
+    vm_size    = "Standard_D4s_v3"
+    os_type    = "Linux"
+    type       = "VirtualMachineScaleSets"
     # keep system pool small; use separate user node pool(s) for workloads
-    vnet_subnet_id      = azurerm_subnet.aks_subnet.id
-    availability_zones  = ["1","2","3"]
+    vnet_subnet_id     = azurerm_subnet.aks_subnet.id
+    availability_zones = ["1", "2", "3"]
   }
 
   identity {
@@ -76,9 +76,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   network_profile {
-    network_plugin = "azure"
+    network_plugin    = "azure"
     load_balancer_sku = "standard"
-    outbound_type = "loadBalancer"
+    outbound_type     = "loadBalancer"
   }
 
   tags = {
