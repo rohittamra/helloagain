@@ -52,7 +52,9 @@ jobs:
       - name: Build and Push Docker image
         working-directory: ${{ env.DOCKER_APP_DIR }}
         run: |
+          echo "creating docker build"
           docker build -t ${{ env.DOCKER_IMAGE }} .
+          echo "creating docker push"
           docker push ${{ env.DOCKER_IMAGE }}
 
   k8s_deploy:
