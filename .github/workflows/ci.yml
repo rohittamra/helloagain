@@ -34,7 +34,7 @@ jobs:
 
   docker_build:
     runs-on: ubuntu-latest
-    needs: terraform
+    # needs: terraform
     env:
       DOCKER_APP_DIR: cors_application
       DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/cors-proxy:latest
