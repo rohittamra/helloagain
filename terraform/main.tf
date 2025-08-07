@@ -48,6 +48,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
     node_count = 1
     vm_size    = "Standard_D4s_v3"
     type       = "VirtualMachineScaleSets"
+    subnet_id  = azurerm_subnet.aks_subnet.id
+    availability_zones = ["1", "2", "3"]
   }
 
   identity {
@@ -60,17 +62,16 @@ resource "azurerm_kubernetes_cluster" "aks" {
     outbound_type     = "loadBalancer"
   }
 
-  # # Enable RBAC like this:
-  # role_based_access_control {
-  #   enabled = true
-  # }
+  role_based_access_control {
+    enabled = true
+  }
 
-  # addon_profile {
-  #   oms_agent {
-  #     enabled                    = true
-  #     log_analytics_workspace_id = azurerm_log_analytics_workspace.la.id
-  #   }
-  # }
+  addon_profile {
+    oms_agent {
+      enabled                    = true
+      log_analytics_workspace_id = azurerm_log_analytics_workspace.la.id
+    }
+  }
 
   tags = {
     environment = "prod"
