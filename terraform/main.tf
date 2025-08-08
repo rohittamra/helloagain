@@ -45,10 +45,13 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = "${var.prefix}-dns"
 
   default_node_pool {
-    name       = "default"
-    node_count = 1
-    vm_size    = "Standard_D4s_v3"
+    name            = "system"
+    node_count      = 1
+    vm_size         = "Standard_D4s_v3"
+    type            = "VirtualMachineScaleSets"
+    vnet_subnet_id  = azurerm_subnet.aks_subnet.id
   }
+
 
   identity {
     type = "SystemAssigned"
