@@ -110,3 +110,13 @@ jobs:
           echo "Fetching external IP of cors-proxy service:"
           EXTERNAL_IP=$(kubectl get svc cors-proxy -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
           echo "External IP: $EXTERNAL_IP"
+
+      - name: testing
+        run: |
+
+          if [ -z "$EXTERNAL_IP" ]; then
+            echo "External IP not assigned yet."
+            curl http://$EXTERNAL_IP/health
+          else
+            echo "External IP: $EXTERNAL_IP"
+          fi
