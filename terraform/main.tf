@@ -37,6 +37,7 @@ resource "azurerm_subnet" "aks_subnet" {
 
   # If using Azure CNI with network policies, set service endpoints / delegations as required
 }
+
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = local.aks_name
   location            = azurerm_resource_group.rg.location
@@ -47,30 +48,25 @@ resource "azurerm_kubernetes_cluster" "aks" {
     name       = "default"
     node_count = 1
     vm_size    = "Standard_D4s_v3"
-    type       = "VirtualMachineScaleSets"
-    subnet_id  = azurerm_subnet.aks_subnet.id
-    availability_zones = ["1", "2", "3"]
   }
 
   identity {
     type = "SystemAssigned"
   }
 
+  azure_active_directory_role_based_access_control {
+    azure_rbac_enabled     = true
+    admin_group_object_ids = [] # optional
+  }
+
+  oms_agent {
+    log_analytics_workspace_id = azurerm_log_analytics_workspace.la.id
+  }
+
   network_profile {
     network_plugin    = "azure"
     load_balancer_sku = "standard"
     outbound_type     = "loadBalancer"
-  }
-
-  role_based_access_control {
-    enabled = true
-  }
-
-  addon_profile {
-    oms_agent {
-      enabled                    = true
-      log_analytics_workspace_id = azurerm_log_analytics_workspace.la.id
-    }
   }
 
   tags = {
