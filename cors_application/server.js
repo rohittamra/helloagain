@@ -28,6 +28,10 @@ app.use('/proxy', (req, res, next) => {
   })(req, res, next);
 });
 
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', message: 'CORS proxy is running' });
+});
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`CORS proxy running on port ${PORT}`);
