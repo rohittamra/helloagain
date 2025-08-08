@@ -99,7 +99,14 @@ jobs:
           kubectl apply -f ${{ env.K8S_DIR }}/service.yml
           kubectl apply -f ${{ env.K8S_DIR }}/hpa.yml
 
-      - name: Get external IP
+      - name: Get node resource group and list public IPs
+        run: |
+          NODE_RG=$(az aks show --resource-group ${{ env.AKS_RG }} --name ${{ env.AKS_NAME }} --query nodeResourceGroup -o tsv)
+          echo "Node Resource Group: $NODE_RG"
+          echo "Listing public IPs in node resource group:"
+          az network public-ip list --resource-group $NODE_RG --query "[].{Name:name, IPAddress:ipAddress}" -o table
+
+      - name: Get external IP from kubectl
         id: get_ip
         run: |
           EXTERNAL_IP=$(kubectl get svc cors-proxy -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
