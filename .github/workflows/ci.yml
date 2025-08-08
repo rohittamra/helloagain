@@ -99,24 +99,18 @@ jobs:
           kubectl apply -f ${{ env.K8S_DIR }}/service.yml
           kubectl apply -f ${{ env.K8S_DIR }}/hpa.yml
 
-      - name: Network ip
+      - name: Get external IP
+        id: get_ip
         run: |
-          RESOURCE_GROUP=$(az aks show --name ${{ env.AKS_NAME }} --resource-group ${{ env.AKS_RG }} --query nodeResourceGroup -o tsv)
-          echo "RESOURCE_GROUP=${RESOURCE_GROUP}"
-
-          echo "Listing all public IPs in resource group:"
-          az network public-ip list --resource-group ${RESOURCE_GROUP} --query "[].{Name:name, IPAddress:ipAddress}" -o table
-
-          echo "Fetching external IP of cors-proxy service:"
           EXTERNAL_IP=$(kubectl get svc cors-proxy -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-          echo "External IP: $EXTERNAL_IP"
+          echo "external_ip=$EXTERNAL_IP" >> $GITHUB_OUTPUT
 
-      - name: testing
+      - name: Test external IP
         run: |
-
-          if [ -z "$EXTERNAL_IP" ]; then
+          if [ -z "${{ steps.get_ip.outputs.external_ip }}" ]; then
             echo "External IP not assigned yet."
-            curl http://$EXTERNAL_IP/health
+            exit 1
           else
-            echo "External IP: $EXTERNAL_IP"
+            echo "External IP: ${{ steps.get_ip.outputs.external_ip }}"
+            curl http://${{ steps.get_ip.outputs.external_ip }}/health
           fi
