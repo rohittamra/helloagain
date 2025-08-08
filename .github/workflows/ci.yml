@@ -24,22 +24,22 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Terraform Init
-        working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform init
+      # - name: Terraform Init
+      #   working-directory: ${{ env.TF_WORKING_DIR }}
+      #   run: terraform init
 
-      # Taking time - later allow it
-      - name: Terraform Plan
-        working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform plan
+      # # Taking time - later allow it
+      # - name: Terraform Plan
+      #   working-directory: ${{ env.TF_WORKING_DIR }}
+      #   run: terraform plan
 
-      - name: Terraform Apply
-        working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform apply -auto-approve
+      # - name: Terraform Apply
+      #   working-directory: ${{ env.TF_WORKING_DIR }}
+      #   run: terraform apply -auto-approve
 
-      - name: Terraform Output
-        working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform output
+      # - name: Terraform Output
+      #   working-directory: ${{ env.TF_WORKING_DIR }}
+      #   run: terraform output
 
   docker_build:
     runs-on: ubuntu-latest
