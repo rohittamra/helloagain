@@ -1,2 +1,2 @@
 az login
-az ad sp create-for-rbac --name "github-actions-sp" --role Contributor --scopes /subscriptions/88393e33-fcbe-49c7-82ac-8e7cac49eda3 --sdk-auth
+az ad sp create-for-rbac --name "github-actions-sp" --role Contributor --scopes /subscriptions/353073dd-7939-4943-a19e-ff2a92635367 --sdk-auth

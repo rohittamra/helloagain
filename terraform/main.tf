@@ -7,10 +7,10 @@ locals {
   aks_sku     = "Basic"
 }
 
-# resource "azurerm_resource_group" "rg" {
-#   name     = local.rg_name
-#   location = var.location
-# }
+resource "azurerm_resource_group" "rg" {
+  name     = local.rg_name
+  location = var.location
+}
 
 # Log Analytics workspace (recommended for monitoring / insights)
 resource "azurerm_log_analytics_workspace" "la" {
@@ -47,7 +47,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   default_node_pool {
     name            = "system"
     node_count      = 1
-    vm_size         = "Standard_D4s_v3"
+    vm_size         = "Standard_D2s_v3"
     type            = "VirtualMachineScaleSets"
     vnet_subnet_id  = azurerm_subnet.aks_subnet.id
   }
