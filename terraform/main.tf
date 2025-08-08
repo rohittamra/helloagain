@@ -7,10 +7,10 @@ locals {
   aks_sku     = "Basic"
 }
 
-resource "azurerm_resource_group" "rg" {
-  name     = local.rg_name
-  location = var.location
-}
+# resource "azurerm_resource_group" "rg" {
+#   name     = local.rg_name
+#   location = var.location
+# }
 
 # Log Analytics workspace (recommended for monitoring / insights)
 resource "azurerm_log_analytics_workspace" "la" {
