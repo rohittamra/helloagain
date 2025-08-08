@@ -29,17 +29,17 @@ jobs:
         run: terraform init
 
       # Taking time - later allow it
-      # - name: Terraform Plan
-      #   working-directory: ${{ env.TF_WORKING_DIR }}
-      #   run: terraform plan
+      - name: Terraform Plan
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform plan
 
-      # - name: Terraform Apply
-      #   working-directory: ${{ env.TF_WORKING_DIR }}
-      #   run: terraform apply -auto-approve
+      - name: Terraform Apply
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform apply -auto-approve
 
-      # - name: Terraform Output
-      #   working-directory: ${{ env.TF_WORKING_DIR }}
-      #   run: terraform output
+      - name: Terraform Output
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform output
 
   docker_build:
     runs-on: ubuntu-latest
@@ -72,8 +72,8 @@ jobs:
     env:
       TF_WORKING_DIR: terraform
       K8S_DIR: kuberenetes
-      AKS_NAME: "myaks-aks"
-      AKS_RG: "myaks-rg"
+      AKS_NAME: "helloagain-aks"
+      AKS_RG: "helloagain-rg"
 
     steps:
       - name: Checkout repository

@@ -34,8 +34,6 @@ resource "azurerm_subnet" "aks_subnet" {
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.240.0.0/16"]
-
-  # If using Azure CNI with network policies, set service endpoints / delegations as required
 }
 
 resource "azurerm_kubernetes_cluster" "aks" {
@@ -57,11 +55,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type = "SystemAssigned"
   }
 
-  # azure_active_directory_role_based_access_control {
-  #   azure_rbac_enabled     = true
-  #   admin_group_object_ids = [] # optional
-  # }
-
   oms_agent {
     log_analytics_workspace_id = azurerm_log_analytics_workspace.la.id
   }
@@ -73,6 +66,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   tags = {
-    environment = "prod"
+    environment = "challenge-helloagain"
   }
 }
