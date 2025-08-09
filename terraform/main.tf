@@ -12,7 +12,6 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 }
 
-# Log Analytics workspace (recommended for monitoring / insights)
 resource "azurerm_log_analytics_workspace" "la" {
   name                = local.la_name
   location            = azurerm_resource_group.rg.location
@@ -21,7 +20,6 @@ resource "azurerm_log_analytics_workspace" "la" {
   retention_in_days   = 30
 }
 
-# Virtual network + subnet (AKS needs a subnet)
 resource "azurerm_virtual_network" "vnet" {
   name                = local.vnet_name
   address_space       = ["10.0.0.0/8"]
