@@ -10,9 +10,11 @@ Created the azure account by signing in in microsoft azure portal. Then added a 
 
 ## 2. Kubernetes Cluster:
 
-Once that it is done rest I have done through github.  I have provided the challenge repo as a public access 
+Once that it is done rest I have done through github.I have provided the challenge repo as a public access 
 
-[https://github.com/rohittamra/helloagain/tree/main](https://github.com/rohittamra/helloagain/tree/main)
+[https://github.com/rohittamra/helloagain/tree/main](https://github.com/rohittamra/helloagain/tree/main) 
+
+[Pipeline that works](https://github.com/rohittamra/helloagain/actions/runs/16847118985/job/47728214060)
 
 There are four folders which are used to finish the process (explanation is as below):
 
@@ -39,7 +41,7 @@ In `github/workflows` -> `ci.yml` which will trigger actions(ci-cd pipeline) has
 
 ## 3. IAC
 
-Used terraform for this case.  The files used are as below:
+Used terraform for this case.The files used are as below:
 
 - `variables.tf` -> all the general global variables which are used everywhere in all modules are to be given here.  
 - `nodepools.tf` -> how many number of user pools are to be used and what os type etc configuration for AKS node pools are given here.  
@@ -86,16 +88,16 @@ skipped
 
 To perform the end to end setup just hit the `ci.yml` pipeline and it will take of itself.  
 
-Few things to consider:  
+Few things to consider:
 ```bash
 az login —-> get the subscription id which will be needed for next step
 
 az ad sp create-for-rbac --name "github-actions-sp" --role Contributor --scopes /subscriptions/<subcription id from above> —sdk-auth
 ```
 
-### Explanation ad 
+### Explanation
 
--> active directory 
+`ad` ->  active directory 
 `sp` -> service principal ( a non-human identity that can log in to Azure)
 `Github-actions-sp` -> name for your service principal (can be anything)
 `—role Contributor` ->grants this service principal Contributor permissions (can create, update, and delete most resources, but not manage access(grant permissions to another user)).
@@ -113,7 +115,7 @@ More screenshots of how the iAC created the two resource groups.
 
 ---
 
-## Limitations: 
+##Limitations:
 
 - No load testing has been performed, so the actual maximum sustainable RPS is unverified.
 
@@ -127,7 +129,7 @@ More screenshots of how the iAC created the two resource groups.
 
 ---
 
-##  Further steps: 
+##  Further steps:
 
 - Enable Cluster Autoscaler to automatically add more nodes when HPA requires additional capacity.
 
